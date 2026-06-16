@@ -18,6 +18,38 @@ function M.setup()
     }
   }
 
+    -- Настройка диагностики для всех серверов
+  vim.diagnostic.config({
+    -- Отображать виртуальный текст (описание ошибки рядом с кодом)
+    virtual_text = {
+      prefix = '●',  -- Символ перед сообщением
+      spacing = 0,   -- Расстояние между текстом и сообщением
+    },
+    -- Отображать знаки на полях (у вас уже есть E/W)
+    signs = true,
+    -- Обновлять диагностику при вводе
+    update_in_insert = false,
+    -- Подсветка строк с ошибками
+    underline = true,
+    -- Глобальная строка состояния
+    severity_sort = true,
+    float = {
+      source = true,  -- Показывать источник ошибки (сервер LSP)
+      border = 'single',
+    },
+  })
+
+  -- Настройка знаков на полях (можно кастомизировать)
+  local signs = {
+    { name = "DiagnosticSignError", text = "✘" },
+    { name = "DiagnosticSignWarn", text = "▲" },
+    { name = "DiagnosticSignInfo", text = "" },
+    { name = "DiagnosticSignHint", text = "" },
+  }
+  for _, sign in ipairs(signs) do
+    vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = sign.name })
+  end
+
   -- Сервер для C/C++
   vim.lsp.config.clangd = {
     cmd = { 'clangd' },
