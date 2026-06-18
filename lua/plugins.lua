@@ -176,5 +176,70 @@ require("lazy").setup({
             local cmp = require("cmp")
             cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
         end,
-    }
+    },
+
+    -- Табы
+    {
+        'romgrk/barbar.nvim',
+        dependencies = {
+          -- 'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+          'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+        },
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {
+          auto_hide = true,
+          tabpages = false,
+          animation = false,
+          -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+          -- animation = true,
+          -- insert_at_start = true,
+          -- …etc.
+        },
+        version = '^1.0.0', -- optional: only update when a new 1.x version is released
+  },
+
+  -- Дашбоард
+  {
+      'MeanderingProgrammer/dashboard.nvim',
+      event = 'VimEnter',
+      config = function()
+          -- Импортируем ASCII арт из отдельного файла
+          local ascii = require('ascii.dashboard')
+          
+          require('dashboard').setup({
+              bo = {
+                  bufhidden = 'wipe',
+                  buflisted = false,
+                  filetype = 'dashboard',
+                  swapfile = false,
+              },
+              wo = {
+                  cursorcolumn = false,
+                  cursorline = false,
+                  number = false,
+                  relativenumber = false,
+                  spell = false,
+                  statuscolumn = '',
+                  wrap = false,
+                  foldcolumn = '0',
+                  signcolumn = 'no',
+                  colorcolumn = '0',
+              },
+              directories = {},
+              header = ascii.dashboard2,  -- Используем импортированный ASCII арт
+              date_format = '%Y-%m-%d %H:%M',
+              footer = { 'version', 'startuptime' },
+              highlight_groups = {
+                  header = 'Constant',
+                  icon = 'Type',
+                  directory = 'Delimiter',
+                  hotkey = 'Statement',
+              },
+              on_load = function(path)
+                  vim.cmd('bdelete!')
+              end,
+          })
+      end,
+  },
+
 })

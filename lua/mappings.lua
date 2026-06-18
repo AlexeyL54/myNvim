@@ -19,9 +19,9 @@ function M.setup()
   vim.keymap.set('n', '<leader>sc', ':nohlsearch<CR>', opts)     -- Снять подсветку
 
   -- Буферы
-  vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', opts)        -- Закрыть буфер
-  vim.keymap.set('n', '<leader>bn', ':bnext<CR>', opts)          -- Следующий буфер
-  vim.keymap.set('n', '<leader>bp', ':bprevious<CR>', opts)      -- Предыдущий буфер
+  vim.keymap.set('n', '<leader>bd', '<Cmd>BufferClose<CR>', opts)   -- Закрыть буфер
+  vim.keymap.set('n', '<S-l>', '<Cmd>BufferNext<CR>', opts)         -- Следующий буфер
+  vim.keymap.set('n', '<S-h>', '<Cmd>BufferPrevious<CR>', opts)     -- Предыдущий буфер
 
   -- Файлы
   vim.keymap.set('n', '<leader>ff', ':Telescope find_files<CR>', opts)
@@ -29,7 +29,6 @@ function M.setup()
   
   -- Сохранение и выход
   vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
-  -- vim.keymap.set('n', '<leader>w', ':write<CR>', opts)
   vim.keymap.set('n', '<leader>q', ':quit<CR>', opts)
   
   -- Term mode (если используете встроенный терминал)
