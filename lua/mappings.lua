@@ -59,7 +59,7 @@ function M.lsp_on_attach(client, buffer)
   vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
   
   -- Форматирование
-  vim.keymap.set('n', '<leader>f', function()
+  vim.keymap.set('n', '<leader>fm', function()
     vim.lsp.buf.format({ async = true })
   end, opts)
 end

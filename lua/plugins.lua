@@ -127,7 +127,54 @@ require("lazy").setup({
                     { name = 'nvim_lsp' },
                     { name = 'buffer' },
                 },
+                window = {
+                    completion = {
+                        -- Ограничиваем высоту списка
+                        winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+                        max_height = 15,    -- Ограничение высоты
+                        max_width = 80,     -- Ограничение ширины
+                        scrollbar = false,  -- Прокрутка при достижении лимита
+                    },
+                    documentation = {
+                        max_height = 20,
+                        max_width = 60,
+                        border = "single",  -- Рамка вокруг окна документации
+                    },
+                },
             })
         end,
     },
+
+    -- Автоматическое закрытие скобок, кавычек и т.д.
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        config = function()
+            require("nvim-autopairs").setup({
+                -- Основные настройки (можно оставить по умолчанию)
+                check_ts = true,  -- Использовать treesitter для проверки контекста
+                ts_config = {
+                    lua = { "string" },  -- Не добавлять пары в строках Lua
+                    javascript = { "template_string" },
+                    java = { false },
+                },
+                fast_wrap = {
+                    map = "<M-e>",  -- Клавиша для быстрого переноса в скобках
+                    chars = { "{", "[", "(", '"', "'" },
+                    pattern = [=[[%'%"%>%]%)%}%,]]=],
+                    offset = 0,
+                    end_key = "$",
+                    keys = "qwertyuiopzxcvbnmasdfghjkl",
+                    check_comma = true,
+                    highlight = "PmenuSel",
+                    highlight_grey = "LineNr",
+                },
+            })
+
+            -- Интеграция с nvim-cmp (автодополнение)
+            local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+            local cmp = require("cmp")
+            cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+        end,
+    }
 })
