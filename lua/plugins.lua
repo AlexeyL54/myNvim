@@ -226,7 +226,7 @@ require("lazy").setup({
                   colorcolumn = '0',
               },
               directories = {},
-              header = ascii.dashboard2,  -- Используем импортированный ASCII арт
+              header = ascii.dashboard3,  -- Используем импортированный ASCII арт
               date_format = '%Y-%m-%d %H:%M',
               footer = { 'version', 'startuptime' },
               highlight_groups = {
